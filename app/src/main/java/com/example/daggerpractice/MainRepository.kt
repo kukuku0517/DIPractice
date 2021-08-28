@@ -1,6 +1,8 @@
 package com.example.daggerpractice
 
 import android.content.Context
+import com.example.daggerpractice.di.AppContext
+import javax.inject.Inject
 
-class MainRepository(context: Context) {
+class MainRepository @Inject constructor(@AppContext context: Context) {
 }

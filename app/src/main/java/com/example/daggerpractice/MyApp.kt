@@ -1,11 +1,13 @@
 package com.example.daggerpractice
 
 import android.app.Application
-import com.example.daggerpractice.di.AppModule
-import com.example.daggerpractice.di.DaggerMainComponent
-import com.example.daggerpractice.di.MainModule
+import com.example.daggerpractice.di.module.AppModule
+import com.example.daggerpractice.di.comp.AppComponent
+import com.example.daggerpractice.di.comp.DaggerAppComponent
 
 class MyApp : Application() {
+    lateinit var appComponent: AppComponent
+
     override fun onCreate() {
         super.onCreate()
 
@@ -14,9 +16,12 @@ class MyApp : Application() {
     }
 
     private fun injectComponent() {
-        DaggerMainComponent.builder()
-            .mainModule(MainModule)
+        DaggerAppComponent.builder()
             .appModule(AppModule(this))
             .build()
+            .apply {
+                appComponent = this
+                inject(this@MyApp)
+            }
     }
 }

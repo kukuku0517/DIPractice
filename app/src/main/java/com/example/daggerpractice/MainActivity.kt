@@ -2,7 +2,8 @@ package com.example.daggerpractice
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import dagger.internal.DaggerGenerated
+import com.example.daggerpractice.databinding.ActivityMainBinding
+import com.example.daggerpractice.di.comp.DaggerActivityComponent
 import javax.inject.Inject
 
 class MainActivity : AppCompatActivity() {
@@ -10,7 +11,19 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+
+        DaggerActivityComponent.builder()
+            .appComponent((application as MyApp).appComponent)
+            .build()
+            .inject(this)
+
+
+        val binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        binding.txt.setOnClickListener {
+            vm.test()
+        }
+
 
     }
 }
